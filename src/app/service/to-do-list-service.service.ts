@@ -1,7 +1,8 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 
-import {ToDoList} from "../models/ToDoList";
+import { ToDoList} from "../models/ToDoList";
+import {parseJson} from "@angular/cli/utilities/json-file";
 
 @Injectable(
   {providedIn:'root'}
@@ -28,13 +29,6 @@ export class ToDoListServiceService{
       .then(res => <ToDoList[]>res.data)
       .then(data => { return data; });
   }
-  getToDo() {
-    return this.http.get<any>('assets/task.json')
-      .toPromise()
-      .then(res => <ToDoList[]>res.data)
-      .then(data => { return data; });
-  }
-
   generateToDoList() : ToDoList{
     return {
       id: this.generateId(),

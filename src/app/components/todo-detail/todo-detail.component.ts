@@ -19,30 +19,40 @@ import { MessageService } from 'primeng/api';
 })
 export class TodoDetailComponent implements OnInit {
 
-  todoListDialog : boolean ;
+  todoListDialog?: boolean ;
 
-  todoLists : ToDoList[] ;
+  todolists: ToDoList[] = [];
 
-  todo : ToDoList ;
+  todo : ToDoList = {};
 
-  selectedTask :  ToDoList[] ;
+   selectedTask : ToDoList[] = [] ;
 
-  submitted : boolean;
+  submitted : boolean = false;
   Delete:any;
   statuses : any[] = [];
 
 
-  constructor(private ToDoService: ToDoListServiceService,
-              private messageService: MessageService,
-              private confirmationService: ConfirmationService) { }
+  constructor(public ToDoService: ToDoListServiceService,
+              public messageService: MessageService,
+              public confirmationService: ConfirmationService) {
+
+  }
 
   ngOnInit(): void {
-    this.ToDoService.getToDoList().then(data => this.todoLists = data);
+    this.ToDoService.getToDoList().then(data => this.todolists = data);
     this.statuses = [
       {label: 'Done', value: 'done'},
       {label: 'UnDone', value: 'undone'}
     ];
+    this.todolists =[
+      {id : "1",name:"Học Angular 13",description:"học trong 3 tuần",status:"unDone"},
+      {id : "2",name:"Học ASP.NET core",description:"học trong 3 tuần",status:"unDone"},
+      {id : "3",name:"Công Việc 1",description:"học trong 3 tuần",status:"unDone"},
+      {id : "4",name:"Công Việc 2",description:"học trong 3 tuần",status:"unDone"},
+      {id : "5",name:"Công Việc 3",description:"học trong 3 tuần",status:"unDone"}
+    ];
   }
+
   openNew() {
     this.todo = {};
     this.submitted = false;
@@ -54,8 +64,8 @@ export class TodoDetailComponent implements OnInit {
       header: 'Confirm',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.todoLists = this.todoLists.filter(val => !this.selectedTask.includes(val));
-        this.selectedTask = null;
+        this.todolists = this.todolists.filter(val => !this.selectedTask.includes(val));
+        // this.selectedTask = null;
         this.messageService.add({severity:'success', summary: 'Successful', detail: 'Products Deleted', life: 3000});
       }
     });
@@ -71,7 +81,7 @@ export class TodoDetailComponent implements OnInit {
       header: 'Confirm',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.todoLists = this.todoLists.filter(val => val.id !== ToDo.id);
+        this.todolists = this.todolists.filter(val => val.id !== ToDo.id);
         this.todo = {};
         this.messageService.add({severity:'success', summary: 'Successful', detail: 'Product Deleted', life: 3000});
       }
@@ -84,29 +94,29 @@ export class TodoDetailComponent implements OnInit {
   }
 
   saveTD() {
+
     this.submitted = true;
 
 
-    if (this.todo.name.trim()) {
+    if (this.todo.name) {
       if (this.todo.id) {
-        this.todoLists[this.findIndexById(this.todo.id)] = this.todo;
-        this.messageService.add({severity:'success', summary: 'Successful', detail: 'Product Updated', life: 3000});
-      }
-      else {
+        this.todolists[this.findIndexById(this.todo.id)] = this.todo;
+        this.messageService.add({severity: 'success', summary: 'Successful', detail: 'Task Updated', life: 3000});
+      } else {
         this.todo.id = this.createId();
-        this.todoLists.push(this.todo);
-        this.messageService.add({severity:'success', summary: 'Successful', detail: 'Product Created', life: 3000});
+        this.todolists.push(this.todo);
+        this.messageService.add({severity: 'success', summary: 'Successful', detail: 'Task Created', life: 3000});
       }
-      this.todoLists = [...this.todoLists];
+      this.todolists = [...this.todolists];
       this.todoListDialog = false;
       this.todo = {};
+      // }
     }
   }
-
   findIndexById(id: string): number {
     let index = -1;
-    for (let i = 0; i < this.todoLists.length; i++) {
-      if (this.todoLists[i].id === id) {
+    for (let i = 0; i < this.todolists.length; i++) {
+      if (this.todolists[i].id === id) {
         index = i;
         break;
       }
