@@ -69,7 +69,7 @@
     </div>
     <div class="field">
       <label for="statuses">Trạng Thái</label>
-      <p-dropdown [(ngModel)]="todo.status" Id="statuses" [options]="statuses" placeholder="Select">
+      <p-dropdown [(ngModel)]="todo.status"  id="statuses" [options]="statuses" placeholder="Select">
         <ng-template let-option pTemplate="item">
           <span [class]="'product-badge status-' + option.value">{{option.label}}</span>
         </ng-template>
@@ -79,7 +79,8 @@
     <div class="p-formgrid p-grid">
       <div class="p-field p-col">
         <label for="ID">ID</label>
-        <p-inputNumber id="ID" [(ngModel)]="todo.id"   ></p-inputNumber>
+<!--        <p-inputNumber id="ID" [(ngModel)]="todo.id"   ></p-inputNumber>-->
+        <input type="text" pInputText id="ID" [(ngModel)]="todo.id" required  />
       </div>
 
     </div>
@@ -87,7 +88,8 @@
 
   <ng-template pTemplate="footer">
     <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-    <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveTD()"></button>
+    <button  pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveTD()"></button>
+
   </ng-template>
 </p-dialog>
 
